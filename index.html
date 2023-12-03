@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="assets/css/style.css">
+    <script src="assets/js/scripts.js"></script>
+    <title>SMAT | CMS</title>
+</head>
+<body>
+    <button onclick="topFunction()" id="toTopBtn" title="Go to top">Top</button>
+    <div id="mySidenav" class="sidenav">
+        <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+        <a href="#">About</a>
+        <a href="#">Services</a>
+        <a href="#">Clients</a>
+        <a href="#">Contact</a>
+        <a href="#" onclick="document.getElementById('id01').style.display='block'">Login</a>
+        <a href="#" onclick="document.getElementById('id02').style.display='block'">Register</a>
+    </div>
+
+    <!-- Use any element to open the sidenav -->
+    <!-- <span onclick="openNav()">open</span> -->
+    <div id="navContainer" onclick="openNav()">
+        <div class="bar1"></div>
+        <div class="bar2"></div>
+        <div class="bar3"></div>
+    </div>
+    <label class="switch">
+        <input type="checkbox" onclick="darkMode() ">
+        <span class="slider round"></span>
+    </label>
+
+    <!-- Add all page content inside this div if you want the side nav to push page content to the right (not used if you only want the sidenav to sit on top of the page -->
+    <div id="main">
+
+
+        <!-- The Login Modal -->
+        <div id="id01" class="modal">
+            <span onclick="document.getElementById('id01').style.display='none'" class="close" title="Close Form">&times;</span>
+
+            <!-- Modal Content -->
+            <form class="modal-content animate" action="/action_page.php">
+                <div class="imgcontainer">
+                    <img src="assets/img/img_avatar2.png" alt="Avatar" class="avatar">
+                </div>
+
+                <div class="container">
+                    <label for="uname"><b>Username</b></label>
+                    <input type="text" placeholder="Enter Username" name="uname" required>
+
+                    <label for="psw"><b>Password</b></label>
+                    <input type="password" placeholder="Enter Password" name="psw" id="myInput" required>
+                    
+                    <label class="checkedContainer">Show Password
+                    <input type="checkbox" onclick="showPassword()">
+                        <span class="checkmark"></span>
+                    </label>
+                    <button type="submit" style="font-size: larger; font-weight: 700; height: 40px; padding: 0; margin: 10px 0 20px 0;">Login</button>
+
+                    <label class="checkedContainer">Remember me
+                    <input type="checkbox" checked="checked" name="remember">
+                        <span class="checkmark"></span>
+                    </label>
+                </div>
+
+                <div class="container" style="background-color:#f1f1f1">
+                <button type="button" onclick="document.getElementById('id01').style.display='none'" class="cancelbtn">Cancel</button>
+                <span class="psw">Forgot <a href="#">password?</a></span>
+                </div>
+            </form>
+        </div>
+
+
+
+
+        <!-- The Registration Model -->
+
+        <div id="id02" class="modal">
+            <span onclick="document.getElementById('id02').style.display='none'" class="close" title="Close Form">&times;</span>
+
+            <!-- Modal Content -->
+            <form class="modal-content modalReg animate" action="server.php" method="POST" autocomplete="off">
+                <div class="container">
+                    <label for="fname"><b>First Name</b></label>
+                    <input type="text" placeholder="Enter First Name" name="fname" required>
+
+                    <label for="lname"><b>Last Name</b></label>
+                    <input type="text" placeholder="Enter Last Name" name="lname" required>
+
+                    <label for="country"><b>Country</b></label>
+                    <div class="autocomplete" style="width:100%;">
+                        <input id="reg_country" autocomplete="off" type="text" name="myCountry" placeholder="Country">
+                    </div>
+
+                    <label for="uname"><b>Username</b></label>
+                    <input type="text" placeholder="Enter Username" name="uname" required>
+
+                    <label for="psw"><b>Password</b></label>
+                    <input type="password" autocomplete="off" placeholder="Enter Password" name="psw" id="psw" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters" required>
+                    
+                    <label class="checkedContainer">Show Password
+                    <input type="checkbox" onclick="showPassword()">
+                        <span class="checkmark"></span>
+                    </label>
+                    <button type="submit" name="submit" style="font-size: larger; font-weight: 700; height: 40px; padding: 0; margin: 10px 0 20px 0;">Submit</button>
+                </div>
+
+                <div class="container" style="background-color:#f1f1f1">
+                <button type="button" onclick="document.getElementById('id02').style.display='none'" class="cancelbtn">Cancel</button>
+                </div>
+                <div id="message">
+                    <h3>Password must contain the following:</h3>
+                    <p id="letter" class="invalid">A <b>lowercase</b> letter</p>
+                    <p id="capital" class="invalid">A <b>capital (uppercase)</b> letter</p>
+                    <p id="number" class="invalid">A <b>number</b></p>
+                    <p id="length" class="invalid">Minimum <b>8 characters</b></p>
+                </div>
+            </form>
+
+        </div>
+
+
+
+
+        <script>
+            // Registration/Password Validation
+
+            var myInput = document.getElementById("psw");
+            var letter = document.getElementById("letter");
+            var capital = document.getElementById("capital");
+            var number = document.getElementById("number");
+            var length = document.getElementById("length");
+
+            // When the user clicks on the password field, show the message box
+            myInput.onfocus = function() {
+            document.getElementById("message").style.display = "block";
+            }
+
+            // When the user clicks outside of the password field, hide the message box
+            myInput.onblur = function() {
+            document.getElementById("message").style.display = "none";
+            }
+
+            // When the user starts to type something inside the password field
+            myInput.onkeyup = function() {
+            // Validate lowercase letters
+            var lowerCaseLetters = /[a-z]/g;
+            if(myInput.value.match(lowerCaseLetters)) {  
+                letter.classList.remove("invalid");
+                letter.classList.add("valid");
+            } else {
+                letter.classList.remove("valid");
+                letter.classList.add("invalid");
+            }
+            
+            // Validate capital letters
+            var upperCaseLetters = /[A-Z]/g;
+            if(myInput.value.match(upperCaseLetters)) {  
+                capital.classList.remove("invalid");
+                capital.classList.add("valid");
+            } else {
+                capital.classList.remove("valid");
+                capital.classList.add("invalid");
+            }
+
+            // Validate numbers
+            var numbers = /[0-9]/g;
+            if(myInput.value.match(numbers)) {  
+                number.classList.remove("invalid");
+                number.classList.add("valid");
+            } else {
+                number.classList.remove("valid");
+                number.classList.add("invalid");
+            }
+            
+            // Validate length
+            if(myInput.value.length >= 8) {
+                length.classList.remove("invalid");
+                length.classList.add("valid");
+            } else {
+                length.classList.remove("valid");
+                length.classList.add("invalid");
+            }
+            }
+        </script>
+        
+        <div class="content" style="text-align:center">
+            <h2>Responsive Zig Zag Layout Example</h2>
+            <p>Resize the browser window to see the effect.</p>
+        </div>
+
+        <!-- The App Section -->
+        <div class="contentcontainer">
+            <div class="row">
+                <div class="column-66">
+                <h1 class="xlarge-font"><b>The App</b></h1>
+                <h1 class="large-font" style="color:MediumSeaGreen;"><b>Why buy it?</b></h1>
+                <p><span style="font-size:36px">Take photos like a pro.</span> You should buy this app because lorem ipsum consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+                <button class="contentButton">Download Application</button>
+                </div>
+                <div class="column-33">
+                    <img class="contentImg" src="assets/img/img_app.jpg" width="335" height="471">
+                </div>
+            </div>
+        </div>
+
+        <!-- Clarity Section -->
+        <div class="contentcontainer" style="background-color:#f1f1f1">
+            <div class="row">
+                <div class="column-33">
+                <img class="contentImg" src="assets/img/app5.jpg" alt="App" width="335" height="471">
+                </div>
+                <div class="column-66">
+                <h1 class="xlarge-font"><b>Clarity</b></h1>
+                <h1 class="large-font" style="color:red;"><b>Pixels, who?</b></h1>
+                <p><span style="font-size:24px">A revolution in resolution.</span> Sharp and clear photos with the world's best photo engine, incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquipex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</p>
+                <button class="contentButton" style="background-color:red">Read More</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- The App Section -->
+        <div class="contentcontainer">
+            <div class="row">
+                <div class="column-66">
+                <h1 class="xlarge-font"><b>The App</b></h1>
+                <h1 class="large-font" style="color:MediumSeaGreen;"><b>Why buy it?</b></h1>
+                <p><span style="font-size:36px">Take photos like a pro.</span> You should buy this app because lorem ipsum consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</p>
+                <button class="contentButton">Download Application</button>
+                </div>
+                <div class="column-33">
+                    <img class="contentImg" src="assets/img/img_app.jpg" width="335" height="471" >
+                </div>
+            </div>
+        </div>
+
+        <script>
+            let mybutton = document.getElementById("toTopBtn")
+
+            window.onscroll = function() {
+                stickyMenu();
+                scrollFunction();
+            };
+
+            var navbar = document.getElementById("navContainer");
+            var sticky = navbar.offsetTop;
+
+            function stickyMenu() {
+                if (window.scrollY >= sticky) {
+                    navbar.classList.add("sticky")
+                } else {
+                    navbar.classList.remove("sticky");
+                }
+            }
+
+            function scrollFunction() {
+                if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+                    mybutton.style.display = "block";
+                } else {
+                    mybutton.style.display = "none";
+                }
+            }
+
+            // When the user clicks on the button, scroll to the top of the document
+            function topFunction() {
+                document.body.scrollTop = 0;
+                document.documentElement.scrollTop = 0;
+            }
+        </script>
+
+
+    </div>
+    
+</body>
+</html>
+
+<script>
+    function autocomplete(inp, arr) {
+    /*the autocomplete function takes two arguments,
+    the text field element and an array of possible autocompleted values:*/
+    var currentFocus;
+    /*execute a function when someone writes in the text field:*/
+    inp.addEventListener("input", function(e) {
+        var a, b, i, val = this.value;
+        /*close any already open lists of autocompleted values*/
+        closeAllLists();
+        if (!val) { return false;}
+        currentFocus = -1;
+        /*create a DIV element that will contain the items (values):*/
+        a = document.createElement("DIV");
+        a.setAttribute("id", this.id + "autocomplete-list");
+        a.setAttribute("class", "autocomplete-items");
+        /*append the DIV element as a child of the autocomplete container:*/
+        this.parentNode.appendChild(a);
+        /*for each item in the array...*/
+        for (i = 0; i < arr.length; i++) {
+          /*check if the item starts with the same letters as the text field value:*/
+          if (arr[i].substr(0, val.length).toUpperCase() == val.toUpperCase()) {
+            /*create a DIV element for each matching element:*/
+            b = document.createElement("DIV");
+            /*make the matching letters bold:*/
+            b.innerHTML = "<strong>" + arr[i].substr(0, val.length) + "</strong>";
+            b.innerHTML += arr[i].substr(val.length);
+            /*insert a input field that will hold the current array item's value:*/
+            b.innerHTML += "<input type='hidden' value='" + arr[i] + "'>";
+            /*execute a function when someone clicks on the item value (DIV element):*/
+            b.addEventListener("click", function(e) {
+                /*insert the value for the autocomplete text field:*/
+                inp.value = this.getElementsByTagName("input")[0].value;
+                /*close the list of autocompleted values,
+                (or any other open lists of autocompleted values:*/
+                closeAllLists();
+            });
+            a.appendChild(b);
+          }
+        }
+    });
+    /*execute a function presses a key on the keyboard:*/
+    inp.addEventListener("keydown", function(e) {
+        var x = document.getElementById(this.id + "autocomplete-list");
+        if (x) x = x.getElementsByTagName("div");
+        if (e.keyCode == 40) {
+          /*If the arrow DOWN key is pressed,
+          increase the currentFocus variable:*/
+          currentFocus++;
+          /*and and make the current item more visible:*/
+          addActive(x);
+        } else if (e.keyCode == 38) { //up
+          /*If the arrow UP key is pressed,
+          decrease the currentFocus variable:*/
+          currentFocus--;
+          /*and and make the current item more visible:*/
+          addActive(x);
+        } else if (e.keyCode == 13) {
+          /*If the ENTER key is pressed, prevent the form from being submitted,*/
+          e.preventDefault();
+          if (currentFocus > -1) {
+            /*and simulate a click on the "active" item:*/
+            if (x) x[currentFocus].click();
+          }
+        }
+    });
+    function addActive(x) {
+      /*a function to classify an item as "active":*/
+      if (!x) return false;
+      /*start by removing the "active" class on all items:*/
+      removeActive(x);
+      if (currentFocus >= x.length) currentFocus = 0;
+      if (currentFocus < 0) currentFocus = (x.length - 1);
+      /*add class "autocomplete-active":*/
+      x[currentFocus].classList.add("autocomplete-active");
+    }
+    function removeActive(x) {
+      /*a function to remove the "active" class from all autocomplete items:*/
+      for (var i = 0; i < x.length; i++) {
+        x[i].classList.remove("autocomplete-active");
+      }
+    }
+    function closeAllLists(elmnt) {
+      /*close all autocomplete lists in the document,
+      except the one passed as an argument:*/
+      var x = document.getElementsByClassName("autocomplete-items");
+      for (var i = 0; i < x.length; i++) {
+        if (elmnt != x[i] && elmnt != inp) {
+          x[i].parentNode.removeChild(x[i]);
+        }
+      }
+    }
+    /*execute a function when someone clicks in the document:*/
+    document.addEventListener("click", function (e) {
+        closeAllLists(e.target);
+    });
+  }
+  
+  /*An array containing all the country names in the world:*/
+  var countries = ["Afghanistan","Albania","Algeria","Andorra","Angola","Anguilla","Antigua & Barbuda","Argentina","Armenia","Aruba","Australia","Austria","Azerbaijan","Bahamas","Bahrain","Bangladesh","Barbados","Belarus","Belgium","Belize","Benin","Bermuda","Bhutan","Bolivia","Bosnia & Herzegovina","Botswana","Brazil","British Virgin Islands","Brunei","Bulgaria","Burkina Faso","Burundi","Cambodia","Cameroon","Canada","Cape Verde","Cayman Islands","Central Arfrican Republic","Chad","Chile","China","Colombia","Congo","Cook Islands","Costa Rica","Cote D Ivoire","Croatia","Cuba","Curacao","Cyprus","Czech Republic","Denmark","Djibouti","Dominica","Dominican Republic","Ecuador","Egypt","El Salvador","Equatorial Guinea","Eritrea","Estonia","Ethiopia","Falkland Islands","Faroe Islands","Fiji","Finland","France","French Polynesia","French West Indies","Gabon","Gambia","Georgia","Germany","Ghana","Gibraltar","Greece","Greenland","Grenada","Guam","Guatemala","Guernsey","Guinea","Guinea Bissau","Guyana","Haiti","Honduras","Hong Kong","Hungary","Iceland","India","Indonesia","Iran","Iraq","Ireland","Isle of Man","Israel","Italy","Jamaica","Japan","Jersey","Jordan","Kazakhstan","Kenya","Kiribati","Kosovo","Kuwait","Kyrgyzstan","Laos","Latvia","Lebanon","Lesotho","Liberia","Libya","Liechtenstein","Lithuania","Luxembourg","Macau","Macedonia","Madagascar","Malawi","Malaysia","Maldives","Mali","Malta","Marshall Islands","Mauritania","Mauritius","Mexico","Micronesia","Moldova","Monaco","Mongolia","Montenegro","Montserrat","Morocco","Mozambique","Myanmar","Namibia","Nauro","Nepal","Netherlands","Netherlands Antilles","New Caledonia","New Zealand","Nicaragua","Niger","Nigeria","North Korea","Norway","Oman","Pakistan","Palau","Palestine","Panama","Papua New Guinea","Paraguay","Peru","Philippines","Poland","Portugal","Puerto Rico","Qatar","Reunion","Romania","Russia","Rwanda","Saint Pierre & Miquelon","Samoa","San Marino","Sao Tome and Principe","Saudi Arabia","Senegal","Serbia","Seychelles","Sierra Leone","Singapore","Slovakia","Slovenia","Solomon Islands","Somalia","South Africa","South Korea","South Sudan","Spain","Sri Lanka","St Kitts & Nevis","St Lucia","St Vincent","Sudan","Suriname","Swaziland","Sweden","Switzerland","Syria","Taiwan","Tajikistan","Tanzania","Thailand","Timor L'Este","Togo","Tonga","Trinidad & Tobago","Tunisia","Turkey","Turkmenistan","Turks & Caicos","Tuvalu","Uganda","Ukraine","United Arab Emirates","United Kingdom","United States of America","Uruguay","Uzbekistan","Vanuatu","Vatican City","Venezuela","Vietnam","Virgin Islands (US)","Yemen","Zambia","Zimbabwe"];
+  
+  /*initiate the autocomplete function on the "myInput" element, and pass along the countries array as possible autocomplete values:*/
+  autocomplete(document.getElementById("reg_country"), countries);
+</script>
